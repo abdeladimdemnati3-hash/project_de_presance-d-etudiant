@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+{% load presence_filters %}
+{% block title %}Feuille de Présence{% endblock %}
+{% block active_presences %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1"><i class="bi bi-check2-square me-2 text-primary"></i>Feuille de Présence</h4>
+        <div class="text-muted small">
+            <span class="me-3"><i class="bi bi-book me-1"></i>{{ session.cours.nom }}</span>
+            <span class="me-3"><i class="bi bi-people me-1"></i>{{ session.groupe }}</span>
+            <span class="me-3"><i class="bi bi-calendar me-1"></i>{{ session.date_session }}</span>
+            <span><i class="bi bi-clock me-1"></i>{{ session.heure_debut }} — {{ session.heure_fin }}</span>
+        </div>
+    </div>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+    <div class="card border-0 shadow-sm mb-3">
+        <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+            <span class="fw-semibold">{{ etudiants.count }} étudiant{{ etudiants.count|pluralize }}</span>
+            <div class="d-flex gap-2">
+                <button type="button" class="btn btn-sm btn-outline-success" onclick="setAll('present')">
+                    <i class="bi bi-check-all me-1"></i>Tout Présent
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-danger" onclick="setAll('absent')">
+                    <i class="bi bi-x-circle me-1"></i>Tout Absent
+                </button>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:50px;">#</th>
+                        <th>Nom & Prénom</th>
+                        <th>Matricule</th>
+                        <th class="text-center">Présent</th>
+                        <th class="text-center">Absent</th>
+                        <th class="text-center">Retard</th>
+                        <th>Justification</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for etudiant in etudiants %}
+                    {% with p=presences|get_item:etudiant.pk %}
+                    <tr>
+                        <td class="text-muted">{{ forloop.counter }}</td>
+                        <td class="fw-medium">{{ etudiant.user.get_full_name }}</td>
+                        <td class="text-muted small">{{ etudiant.matricule }}</td>
+                        <td class="text-center">
+                            <input type="radio" name="statut_{{ etudiant.pk }}" value="present"
+                                class="form-check-input statut-radio"
+                                {% if not p or p|get_statut == 'present' %}checked{% endif %}>
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="statut_{{ etudiant.pk }}" value="absent"
+                                class="form-check-input statut-radio"
+                                {% if p|get_statut == 'absent' %}checked{% endif %}>
+                        </td>
+                        <td class="text-center">
+                            <input type="radio" name="statut_{{ etudiant.pk }}" value="retard"
+                                class="form-check-input statut-radio"
+                                {% if p|get_statut == 'retard' %}checked{% endif %}>
+                        </td>
+                        <td>
+                            <input type="text" name="justif_{{ etudiant.pk }}"
+                                class="form-control form-control-sm"
+                                placeholder="Justification..."
+                                value="{% if p %}{{ p.justification }}{% endif %}">
+                        </td>
+                    </tr>
+                    {% endwith %}
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">
+                            <i class="bi bi-people fs-2 d-block mb-2 opacity-50"></i>
+                            Aucun étudiant dans ce groupe.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+        <a href="{% url 'session_list' session.cours_id %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left me-1"></i>Annuler
+        </a>
+        <button type="submit" class="btn btn-primary px-4 fw-semibold">
+            <i class="bi bi-save me-1"></i>Enregistrer la Présence
+        </button>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function setAll(val) {
+    document.querySelectorAll('.statut-radio').forEach(r => {
+        if (r.value === val) r.checked = true;
+    });
+}
+</script>
+{% endblock %}

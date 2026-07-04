@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% block title %}Historique de Présence{% endblock %}
+{% block active_presences %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1"><i class="bi bi-check2-square me-2 text-primary"></i>Historique de Présence</h4>
+        {% if etudiant %}
+        <p class="text-muted mb-0">
+            {{ etudiant.user.get_full_name }} — {{ etudiant.matricule }}
+            {% if etudiant.groupe %} — {{ etudiant.groupe }}{% endif %}
+        </p>
+        {% endif %}
+    </div>
+    {% if etudiant %}
+    <div class="text-end">
+        <div class="fs-3 fw-bold {% if taux >= 75 %}text-success{% elif taux >= 50 %}text-warning{% else %}text-danger{% endif %}">
+            {{ taux }}%
+        </div>
+        <small class="text-muted">Taux de présence</small>
+    </div>
+    {% endif %}
+</div>
+
+{% if etudiant %}
+<!-- Stats rapides -->
+<div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm text-center py-3">
+            <div class="fs-4 fw-bold text-success">{{ presences|length }}</div>
+            <small class="text-muted">Sessions enregistrées</small>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card border-0 shadow-sm text-center py-3">
+            <div class="fs-4 fw-bold text-primary">
+                {% with presents=0 %}
+                {{ presences|length }}
+                {% endwith %}
+            </div>
+            <small class="text-muted">Présent(e)s</small>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Tableau -->
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white py-3">
+        <span class="fw-semibold">Détail des présences</span>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Date</th>
+                    <th>Cours</th>
+                    <th>Horaire</th>
+                    <th>Salle</th>
+                    {% if not etudiant %}<th>Étudiant</th>{% endif %}
+                    <th>Statut</th>
+                    <th>Justification</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in presences %}
+                <tr>
+                    <td class="fw-medium">{{ p.session.date_session|date:"d/m/Y" }}</td>
+                    <td>{{ p.session.cours.nom }}</td>
+                    <td class="text-muted small">{{ p.session.heure_debut|time:"H:i" }} — {{ p.session.heure_fin|time:"H:i" }}</td>
+                    <td class="text-muted small">{{ p.session.salle }}</td>
+                    {% if not etudiant %}<td>{{ p.etudiant.user.get_full_name }}</td>{% endif %}
+                    <td>
+                        {% if p.statut == 'present' %}
+                            <span class="badge bg-success">Présent</span>
+                        {% elif p.statut == 'absent' %}
+                            <span class="badge bg-danger">Absent</span>
+                        {% elif p.statut == 'retard' %}
+                            <span class="badge bg-warning text-dark">Retard</span>
+                        {% elif p.statut == 'justifie' %}
+                            <span class="badge bg-info text-dark">Justifié</span>
+                        {% endif %}
+                    </td>
+                    <td class="text-muted small">{{ p.justification|default:"—" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-5">
+                        <i class="bi bi-inbox fs-2 d-block mb-2 opacity-50"></i>
+                        Aucune présence enregistrée pour le moment.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

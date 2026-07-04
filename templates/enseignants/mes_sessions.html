@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Mes Sessions{% endblock %}
+{% block active_sessions %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0"><i class="bi bi-calendar-check me-2 text-primary"></i>Mes Sessions</h4>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr><th>Date</th><th>Cours</th><th>Groupe</th><th>Horaire</th><th>Salle</th><th>Statut</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for s in sessions %}
+                <tr>
+                    <td class="fw-medium">{{ s.date_session|date:"d/m/Y" }}</td>
+                    <td>{{ s.cours.nom }}</td>
+                    <td>{{ s.groupe.nom }}</td>
+                    <td class="text-muted small">{{ s.heure_debut|time:"H:i" }} — {{ s.heure_fin|time:"H:i" }}</td>
+                    <td class="text-muted small">{{ s.salle }}</td>
+                    <td>
+                        {% if s.statut == 'planifiee' %}<span class="badge bg-primary">Planifiée</span>
+                        {% elif s.statut == 'terminee' %}<span class="badge bg-success">Terminée</span>
+                        {% else %}<span class="badge bg-secondary">Annulée</span>{% endif %}
+                    </td>
+                    <td>
+                        {% if s.statut == 'planifiee' %}
+                        <a href="{% url 'feuille_presence' s.pk %}" class="btn btn-sm btn-primary">
+                            <i class="bi bi-check2-square me-1"></i>Marquer
+                        </a>
+                        {% else %}
+                        <a href="{% url 'feuille_presence' s.pk %}" class="btn btn-sm btn-outline-secondary">
+                            <i class="bi bi-eye"></i> Voir
+                        </a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="7" class="text-center text-muted py-4">Aucune session assignée.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

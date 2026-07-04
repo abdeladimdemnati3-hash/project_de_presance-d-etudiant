@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block title %}Connexion — GesPresence{% endblock %}
+
+{% block content %}
+<div class="min-vh-100 d-flex align-items-center justify-content-center bg-light-blue">
+    <div class="card shadow-lg border-0" style="width: 420px;">
+        <div class="card-header bg-primary-custom text-white text-center py-4">
+            <i class="bi bi-mortarboard-fill fs-1 d-block mb-2"></i>
+            <h4 class="mb-0 fw-bold">GesPresence</h4>
+            <small class="opacity-75">Gestion de Présence des Étudiants</small>
+        </div>
+        <div class="card-body p-4">
+            <h5 class="mb-4 text-center text-muted">Connexion à votre espace</h5>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label class="form-label fw-medium">Nom d'utilisateur</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <div class="text-danger small mt-1">{{ form.username.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-medium">Mot de passe</label>
+                    {{ form.password }}
+                    {% if form.password.errors %}
+                        <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                {% if form.non_field_errors %}
+                    <div class="alert alert-danger py-2 small">{{ form.non_field_errors.0 }}</div>
+                {% endif %}
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary-custom btn-lg fw-semibold">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Se connecter
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer text-center text-muted small py-3">
+            © 2026 GesPresence — OFPPT
+        </div>
+    </div>
+</div>
+{% endblock %}

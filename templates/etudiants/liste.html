@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Liste des Étudiants{% endblock %}
+{% block active_etudiants %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0"><i class="bi bi-people me-2 text-primary"></i>Étudiants</h4>
+</div>
+
+<!-- Filtre -->
+<form method="get" class="card border-0 shadow-sm p-3 mb-4">
+    <div class="row g-2 align-items-end">
+        <div class="col-md-4">
+            <label class="form-label small fw-medium">Filtrer par Groupe</label>
+            <select name="groupe" class="form-select">
+                <option value="">Tous les groupes</option>
+                {% for groupe in groupes %}
+                    <option value="{{ groupe.pk }}" {% if groupe_selectionne == groupe.pk|stringformat:"s" %}selected{% endif %}>
+                        {{ groupe }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="bi bi-search me-1"></i>Filtrer
+            </button>
+        </div>
+    </div>
+</form>
+
+<!-- Table -->
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Matricule</th>
+                    <th>Nom & Prénom</th>
+                    <th>Groupe</th>
+                    <th>Filière</th>
+                    <th>Taux Présence</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for etudiant in etudiants %}
+                <tr>
+                    <td class="fw-medium">{{ etudiant.matricule }}</td>
+                    <td>{{ etudiant.user.get_full_name }}</td>
+                    <td>{{ etudiant.groupe.nom|default:"—" }}</td>
+                    <td>{{ etudiant.groupe.filiere.code|default:"—" }}</td>
+                    <td>
+                        {% with taux=etudiant.get_taux_presence %}
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="progress flex-grow-1" style="height:8px;">
+                                <div class="progress-bar
+                                    {% if taux >= 75 %}bg-success{% elif taux >= 50 %}bg-warning{% else %}bg-danger{% endif %}"
+                                    style="width:{{ taux }}%"></div>
+                            </div>
+                            <small class="fw-semibold" style="min-width:38px;">{{ taux }}%</small>
+                        </div>
+                        {% endwith %}
+                    </td>
+                    <td>
+                        <a href="{% url 'etudiant_detail' etudiant.pk %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center text-muted py-4">Aucun étudiant trouvé.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

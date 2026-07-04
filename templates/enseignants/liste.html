@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Enseignants{% endblock %}
+{% block active_enseignants %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0"><i class="bi bi-person-video3 me-2 text-success"></i>Enseignants</h4>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr><th>CIN</th><th>Nom complet</th><th>Spécialité</th><th>Grade</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for ens in enseignants %}
+                <tr>
+                    <td class="fw-medium">{{ ens.cin }}</td>
+                    <td>{{ ens.user.get_full_name }}</td>
+                    <td>{{ ens.specialite }}</td>
+                    <td class="text-muted">{{ ens.grade|default:"—" }}</td>
+                    <td>
+                        <a href="{% url 'enseignant_detail' ens.pk %}" class="btn btn-sm btn-outline-success">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center text-muted py-4">Aucun enseignant enregistré.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

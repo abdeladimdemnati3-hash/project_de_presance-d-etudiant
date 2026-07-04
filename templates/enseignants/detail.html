@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}{{ enseignant.user.get_full_name }}{% endblock %}
+{% block active_enseignants %}active{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <h4 class="fw-bold mb-1"><i class="bi bi-person-video3 me-2 text-success"></i>{{ enseignant.user.get_full_name }}</h4>
+    <p class="text-muted mb-0">{{ enseignant.specialite }} — {{ enseignant.grade|default:"" }}</p>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white py-3"><span class="fw-semibold">Cours assignés</span></div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr><th>Code</th><th>Cours</th><th>Volume horaire</th><th>Groupes</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+                {% for c in cours %}
+                <tr>
+                    <td class="fw-medium">{{ c.code_cours }}</td>
+                    <td>{{ c.nom }}</td>
+                    <td>{{ c.volume_horaire }}h</td>
+                    <td>{% for g in c.groupes.all %}{{ g.nom }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+                    <td>
+                        <a href="{% url 'session_list' c.pk %}" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-calendar-check"></i> Sessions
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="5" class="text-center text-muted py-4">Aucun cours assigné.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

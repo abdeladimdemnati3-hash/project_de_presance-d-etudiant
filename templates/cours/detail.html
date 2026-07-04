@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}{{ cours.nom }}{% endblock %}
+{% block active_cours %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1"><i class="bi bi-book me-2 text-warning"></i>{{ cours.nom }}</h4>
+        <p class="text-muted mb-0">
+            Code : <strong>{{ cours.code_cours }}</strong> &nbsp;|&nbsp;
+            Volume : <strong>{{ cours.volume_horaire }}h</strong> &nbsp;|&nbsp;
+            Enseignant : <strong>{{ cours.enseignant.user.get_full_name|default:"Non assigné" }}</strong>
+        </p>
+    </div>
+    <a href="{% url 'cours_list' %}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i>Retour
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    {% for groupe in cours.groupes.all %}
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm text-center py-3">
+            <i class="bi bi-people fs-3 text-primary d-block mb-1"></i>
+            <div class="fw-semibold">{{ groupe.nom }}</div>
+            <small class="text-muted">{{ groupe.filiere.code }}</small>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+        <span class="fw-semibold">Sessions ({{ sessions.count }})</span>
+        <a href="{% url 'session_list' cours.pk %}" class="btn btn-sm btn-outline-primary">
+            <i class="bi bi-calendar3 me-1"></i>Voir toutes
+        </a>
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr><th>Date</th><th>Groupe</th><th>Horaire</th><th>Salle</th><th>Statut</th><th>Taux</th></tr>
+            </thead>
+            <tbody>
+                {% for s in sessions|slice:":10" %}
+                <tr>
+                    <td>{{ s.date_session|date:"d/m/Y" }}</td>
+                    <td>{{ s.groupe.nom }}</td>
+                    <td class="text-muted small">{{ s.heure_debut|time:"H:i" }} — {{ s.heure_fin|time:"H:i" }}</td>
+                    <td class="text-muted small">{{ s.salle }}</td>
+                    <td>
+                        {% if s.statut == 'planifiee' %}<span class="badge bg-primary">Planifiée</span>
+                        {% elif s.statut == 'terminee' %}<span class="badge bg-success">Terminée</span>
+                        {% else %}<span class="badge bg-secondary">Annulée</span>{% endif %}
+                    </td>
+                    <td>{{ s.get_taux_presence }}%</td>
+                </tr>
+                {% empty %}
+                <tr><td colspan="6" class="text-center text-muted py-3">Aucune session.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

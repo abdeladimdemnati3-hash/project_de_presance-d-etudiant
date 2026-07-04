@@ -1,0 +1,101 @@
+:root {
+    --primary: #0a5eb0;
+    --primary-dark: #08468a;
+    --sidebar-width: 240px;
+}
+
+/* Global */
+body {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    background-color: #f4f6f9;
+}
+
+/* Navbar */
+.bg-primary-custom {
+    background-color: var(--primary) !important;
+}
+
+/* Sidebar */
+.sidebar {
+    border-right: 1px solid #e9ecef;
+    position: sticky;
+    top: 0;
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+}
+
+.sidebar-link {
+    color: #495057;
+    border-radius: 8px;
+    padding: 0.55rem 0.85rem;
+    transition: background 0.15s, color 0.15s;
+    font-weight: 500;
+}
+
+.sidebar-link:hover,
+.sidebar-link.active {
+    background-color: #e8f0fe;
+    color: var(--primary);
+}
+
+/* Cards */
+.card {
+    border-radius: 12px;
+}
+
+.stat-card:hover,
+.quick-link-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1) !important;
+    transition: all 0.2s ease;
+}
+
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+}
+
+/* Buttons */
+.btn-primary-custom {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+.btn-primary-custom:hover {
+    background-color: var(--primary-dark);
+    border-color: var(--primary-dark);
+    color: white;
+}
+
+/* Login page */
+.bg-light-blue {
+    background: linear-gradient(135deg, #e8f0fe 0%, #f0f4ff 100%);
+}
+
+/* Tables */
+.table thead th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #6c757d;
+    font-weight: 600;
+    background-color: #f8f9fa;
+    border-bottom: 2px solid #dee2e6;
+}
+
+/* Presence status badges */
+.badge-present  { background-color: #198754; }
+.badge-absent   { background-color: #dc3545; }
+.badge-retard   { background-color: #ffc107; color: #000; }
+.badge-justifie { background-color: #0dcaf0; color: #000; }
+
+/* Progress bar */
+.progress {
+    border-radius: 10px;
+    background-color: #e9ecef;
+}
