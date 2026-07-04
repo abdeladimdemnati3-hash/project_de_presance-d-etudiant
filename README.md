@@ -547,13 +547,13 @@ flowchart TB
 
 ```mermaid
 sequenceDiagram
-    actor USER as Utilisateur
+    participant USER as Utilisateur
     participant UI as Interface Login
     participant VIEW as LoginView
     participant AUTH as Django Auth
     participant DB as MySQL
 
-    USER->>UI: Saisit email + mot de passe
+    USER->>UI: Saisit email et mot de passe
     UI->>VIEW: POST /accounts/login/
     VIEW->>AUTH: authenticate(email, password)
     AUTH->>DB: SELECT utilisateur WHERE email=...
@@ -567,7 +567,7 @@ sequenceDiagram
         UI-->>USER: Dashboard personnalisé
     else Échec
         AUTH-->>VIEW: None
-        VIEW-->>UI: Erreur "Identifiants incorrects"
+        VIEW-->>UI: Erreur Identifiants incorrects
         UI-->>USER: Message d'erreur
     end
 ```
@@ -576,85 +576,85 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
-    actor ENS as Enseignant
+    participant ENS as Enseignant
     participant UI as Interface Web
     participant VIEW as Django View
-    participant MODEL as Modèles ORM
+    participant MODEL as Modeles ORM
     participant DB as MySQL
 
-    ENS->>UI: Accède à "Mes Sessions du jour"
+    ENS->>UI: Accede a Mes Sessions du jour
     UI->>VIEW: GET /enseignants/mes-sessions/
-    VIEW->>MODEL: SessionCours.objects.filter(date=today, enseignant=user)
+    VIEW->>MODEL: SessionCours.objects.filter(date=today)
     MODEL->>DB: SELECT session WHERE date=today
     DB-->>MODEL: Liste des sessions
     MODEL-->>VIEW: QuerySet sessions
     VIEW-->>UI: Affiche liste des sessions
 
-    ENS->>UI: Sélectionne une session
+    ENS->>UI: Selectionne une session
     UI->>VIEW: GET /presences/session/id/
     VIEW->>MODEL: Etudiant.objects.filter(groupe=session.groupe)
-    DB-->>MODEL: Liste des étudiants
-    VIEW-->>UI: Affiche feuille de présence
+    DB-->>MODEL: Liste des etudiants
+    VIEW-->>UI: Affiche feuille de presence
 
-    ENS->>UI: Coche les présents / absents
-    ENS->>UI: Clique "Enregistrer"
+    ENS->>UI: Coche les presents et absents
+    ENS->>UI: Clique Enregistrer
     UI->>VIEW: POST /presences/session/id/
     VIEW->>MODEL: Presence.objects.update_or_create(...)
     MODEL->>DB: INSERT INTO presence (...)
     DB-->>MODEL: OK
-    VIEW->>MODEL: Envoyer notifications parents (absents)
-    VIEW-->>UI: Succès + Récapitulatif
-    UI-->>ENS: Confirmation enregistrée
+    VIEW->>MODEL: Envoyer notifications parents absents
+    VIEW-->>UI: Succes
+    UI-->>ENS: Confirmation enregistree
 ```
 
 ### 3. Consultation Parent
 
 ```mermaid
 sequenceDiagram
-    actor PAR as Parent
+    participant PAR as Parent
     participant UI as Interface Parent
     participant VIEW as ParentView
     participant MODEL as ORM
 
-    PAR->>UI: Accède au tableau de bord
+    PAR->>UI: Accede au tableau de bord
     UI->>VIEW: GET /accounts/dashboard/
     VIEW->>MODEL: Parent.objects.get(user=request.user)
-    MODEL-->>VIEW: Objet parent + enfants liés
-    VIEW->>MODEL: Presence.objects.filter(etudiant__in=enfants).recent()
-    MODEL-->>VIEW: Historique des présences
-    VIEW-->>UI: Dashboard avec historique + alertes
-    UI-->>PAR: Affiche données
+    MODEL-->>VIEW: Objet parent et enfants lies
+    VIEW->>MODEL: Presence.objects.filter(etudiant in enfants)
+    MODEL-->>VIEW: Historique des presences
+    VIEW-->>UI: Dashboard avec historique et alertes
+    UI-->>PAR: Affiche donnees
 
     PAR->>UI: Clique sur une notification
     UI->>VIEW: POST /notifications/id/lire/
     VIEW->>MODEL: notification.lu = True; save()
-    VIEW-->>UI: Notification marquée comme lue
+    VIEW-->>UI: Notification marquee comme lue
 ```
 
 ### 4. Génération de Rapport
 
 ```mermaid
 sequenceDiagram
-    actor ADMIN as Administrateur
+    participant ADMIN as Administrateur
     participant UI as Interface Admin
     participant VIEW as RapportView
     participant MODEL as ORM
     participant EXCEL as openpyxl
 
-    ADMIN->>UI: Sélectionne critères (filière, période, groupe)
+    ADMIN->>UI: Selectionne criteres filiere, periode, groupe
     UI->>VIEW: GET /rapports/generer/?groupe=1&date_debut=...
-    VIEW->>MODEL: Filtre sessions + présences selon critères
-    MODEL-->>VIEW: QuerySet de données
-    VIEW->>VIEW: Calcule statistiques (taux, absences, retards)
+    VIEW->>MODEL: Filtre sessions et presences selon criteres
+    MODEL-->>VIEW: QuerySet de donnees
+    VIEW->>VIEW: Calcule statistiques taux, absences, retards
 
     alt Format HTML
         VIEW-->>UI: Tableau HTML
         UI-->>ADMIN: Affiche rapport
     else Format Excel
-        VIEW->>EXCEL: Génère fichier .xlsx
-        EXCEL-->>VIEW: Fichier prêt
-        VIEW-->>UI: Téléchargement automatique
-        UI-->>ADMIN: Fichier Excel téléchargé
+        VIEW->>EXCEL: Genere fichier xlsx
+        EXCEL-->>VIEW: Fichier pret
+        VIEW-->>UI: Telechargement automatique
+        UI-->>ADMIN: Fichier Excel telecharge
     end
 ```
 
