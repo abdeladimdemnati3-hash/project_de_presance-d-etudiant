@@ -1,0 +1,15 @@
+6 Professeurs — mot de passe : prof1234
+Username	Nom	Spécialité	Cours assignés
+prof_karim	Karim Bennani	Développement Web	HTML/CSS, JS/React
+prof_sara	Sara Alaoui	Base de données & Python	Python/Django, MySQL
+prof_youssef	Youssef Idrissi	Réseaux & Cybersécurité	CCNA, Sécurité, Linux
+prof_fatima	Fatima Zahra	Comptabilité & Finance	Compta Générale, Analytique, Fiscalité
+prof_amine	Amine Tazi	Mécatronique & Automatisme	Automatisme, Électronique
+prof_nadia	Nadia Chraibi	Mathématiques	Maths (tous groupes)
+4 Filières & 6 Groupes
+Groupe	Filière	Modules
+DEV-101, DEV-102	Développement Digital	HTML, JS, Python, MySQL, Maths
+RES-101, RES-102	Réseaux Informatiques	CCNA, Sécurité, Linux, Maths
+COMPTA-101	Technicien Comptable	Compta Générale/Analytique, Fiscalité
+MECA-101	Mécatronique	Automatisme, Électronique, Maths
+Emploi du temps
