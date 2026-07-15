@@ -18,7 +18,7 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-changeme')
-DEBUG = config('DJANGO_DEBUG', default=False, cast=bool)
+DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)  # set DJANGO_DEBUG=False in Heroku config vars when stable
 
 # On Heroku, DYNO env var is always set — allow all hosts; otherwise restrict to config
 import os
@@ -89,7 +89,7 @@ DATABASES = {
     'default': dj_database_url.config(
         default=config(
             'DATABASE_URL',
-            default='sqlite:///db.sqlite3',
+            default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'),
         ),
         conn_max_age=600,
     )
