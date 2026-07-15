@@ -27,6 +27,9 @@ if os.environ.get('DYNO'):
 else:
     ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='127.0.0.1,localhost').split(',')
 
+# Password for auto-created superuser on Heroku (set DJANGO_SUPERUSER_PASSWORD in config vars)
+os.environ.setdefault('DJANGO_SUPERUSER_PASSWORD', config('DJANGO_SUPERUSER_PASSWORD', default='Admin1234!'))
+
 
 # Application definition
 
