@@ -146,3 +146,9 @@ LOGOUT_REDIRECT_URL = '/accounts/login/'
 # Crispy Forms
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap5'
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+# CSRF trusted origins for HTTPS (Heroku)
+CSRF_TRUSTED_ORIGINS = config(
+    'CSRF_TRUSTED_ORIGINS',
+    default='https://*.herokuapp.com'
+).split(',')
