@@ -1,0 +1,61 @@
+<ul class="nav flex-column px-2 gap-1 w-100">
+    <li class="nav-item">
+        <a class="nav-link sidebar-link {% block active_dashboard %}{% endblock %}" href="{% url 'dashboard' %}" data-bs-dismiss="offcanvas">
+            <i class="bi bi-speedometer2 me-2"></i>Tableau de bord
+        </a>
+    </li>
+    {% if user.role == 'admin' or user.role == 'enseignant' %}
+    <li class="nav-item">
+        <a class="nav-link sidebar-link {% block active_etudiants %}{% endblock %}" href="{% url 'etudiant_list' %}" data-bs-dismiss="offcanvas">
+            <i class="bi bi-people me-2"></i>Étudiants
+        </a>
+    </li>
+    {% endif %}
+    {% if user.role == 'admin' %}
+    <li class="nav-item">
+        <a class="nav-link sidebar-link {% block active_enseignants %}{% endblock %}" href="{% url 'enseignant_list' %}" data-bs-dismiss="offcanvas">
+            <i class="bi bi-person-video3 me-2"></i>Enseignants
+        </a>
+    </li>
+    {% endif %}
+    {% if user.role == 'admin' or user.role == 'enseignant' %}
+    <li class="nav-item">
+        <a class="nav-link sidebar-link {% block active_cours %}{% endblock %}" href="{% url 'cours_list' %}" data-bs-dismiss="offcanvas">
+            <i class="bi bi-book me-2"></i>Cours
+        </a>
+    </li>
+    {% endif %}
+    {% if user.role == 'enseignant' %}
+    <li class="nav-item">
+        <a class="nav-link sidebar-link {% block active_sessions %}{% endblock %}" href="{% url 'mes_sessions' %}" data-bs-dismiss="offcanvas">
+            <i class="bi bi-calendar-check me-2"></i>Mes Sessions
+        </a>
+    </li>
+    {% endif %}
+    <li class="nav-item">
+        <a class="nav-link sidebar-link {% block active_presences %}{% endblock %}" href="{% url 'presences' %}" data-bs-dismiss="offcanvas">
+            <i class="bi bi-check2-square me-2"></i>Présences
+        </a>
+    </li>
+    {% if user.role == 'admin' %}
+    <li class="nav-item">
+        <a class="nav-link sidebar-link {% block active_rapports %}{% endblock %}" href="{% url 'rapports' %}" data-bs-dismiss="offcanvas">
+            <i class="bi bi-bar-chart-line me-2"></i>Rapports
+        </a>
+    </li>
+    {% endif %}
+    {% if user.role == 'parent' %}
+    <li class="nav-item">
+        <a class="nav-link sidebar-link {% block active_notifications %}{% endblock %}" href="{% url 'notifications' %}" data-bs-dismiss="offcanvas">
+            <i class="bi bi-bell me-2"></i>Notifications
+        </a>
+    </li>
+    {% endif %}
+    {% if user.role == 'admin' %}
+    <li class="nav-item mt-2 border-top pt-2">
+        <a class="nav-link sidebar-link text-muted" href="/admin/" data-bs-dismiss="offcanvas">
+            <i class="bi bi-shield-lock me-2"></i>Admin Django
+        </a>
+    </li>
+    {% endif %}
+</ul>

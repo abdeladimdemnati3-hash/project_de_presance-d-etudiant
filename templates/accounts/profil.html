@@ -8,14 +8,14 @@
 
 <div class="card border-0 shadow-sm" style="max-width:500px;">
     <div class="card-body">
-        <table class="table table-borderless mb-0">
+        <div class="table-responsive"><table class="table table-borderless mb-0">
             <tr><th class="text-muted" style="width:140px;">Nom complet</th><td class="fw-semibold">{{ user.get_full_name }}</td></tr>
             <tr><th class="text-muted">Nom d'utilisateur</th><td>{{ user.username }}</td></tr>
             <tr><th class="text-muted">Email</th><td>{{ user.email }}</td></tr>
             <tr><th class="text-muted">Rôle</th><td><span class="badge bg-primary">{{ user.get_role_display }}</span></td></tr>
             <tr><th class="text-muted">Téléphone</th><td>{{ user.telephone|default:"—" }}</td></tr>
             <tr><th class="text-muted">Membre depuis</th><td>{{ user.date_joined|date:"d/m/Y" }}</td></tr>
-        </table>
+        </table></div>
     </div>
 </div>
 {% endblock %}

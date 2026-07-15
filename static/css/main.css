@@ -4,23 +4,23 @@
     --sidebar-width: 240px;
 }
 
-/* Global */
+/* ── Global ─────────────────────────────── */
 body {
     font-family: 'Inter', sans-serif;
     font-size: 0.9rem;
     background-color: #f4f6f9;
 }
 
-/* Navbar */
+/* ── Navbar ─────────────────────────────── */
 .bg-primary-custom {
     background-color: var(--primary) !important;
 }
 
-/* Sidebar */
+/* ── Sidebar (desktop) ──────────────────── */
 .sidebar {
     border-right: 1px solid #e9ecef;
     position: sticky;
-    top: 0;
+    top: 56px;
     height: calc(100vh - 56px);
     overflow-y: auto;
 }
@@ -28,9 +28,11 @@ body {
 .sidebar-link {
     color: #495057;
     border-radius: 8px;
-    padding: 0.55rem 0.85rem;
+    padding: 0.6rem 0.85rem;
     transition: background 0.15s, color 0.15s;
     font-weight: 500;
+    display: flex;
+    align-items: center;
 }
 
 .sidebar-link:hover,
@@ -39,7 +41,7 @@ body {
     color: var(--primary);
 }
 
-/* Cards */
+/* ── Cards ──────────────────────────────── */
 .card {
     border-radius: 12px;
 }
@@ -60,7 +62,7 @@ body {
     border-radius: 12px;
 }
 
-/* Buttons */
+/* ── Buttons ────────────────────────────── */
 .btn-primary-custom {
     background-color: var(--primary);
     border-color: var(--primary);
@@ -72,12 +74,12 @@ body {
     color: white;
 }
 
-/* Login page */
+/* ── Login page ─────────────────────────── */
 .bg-light-blue {
     background: linear-gradient(135deg, #e8f0fe 0%, #f0f4ff 100%);
 }
 
-/* Tables */
+/* ── Tables ─────────────────────────────── */
 .table thead th {
     font-size: 0.8rem;
     text-transform: uppercase;
@@ -88,14 +90,66 @@ body {
     border-bottom: 2px solid #dee2e6;
 }
 
-/* Presence status badges */
+/* Make all tables scrollable on small screens */
+.table-responsive {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ── Presence badges ────────────────────── */
 .badge-present  { background-color: #198754; }
 .badge-absent   { background-color: #dc3545; }
 .badge-retard   { background-color: #ffc107; color: #000; }
 .badge-justifie { background-color: #0dcaf0; color: #000; }
 
-/* Progress bar */
+/* ── Progress bar ───────────────────────── */
 .progress {
     border-radius: 10px;
     background-color: #e9ecef;
 }
+
+/* ── MOBILE RESPONSIVE ──────────────────── */
+
+/* Reduce font size on small screens */
+@media (max-width: 576px) {
+    body { font-size: 0.85rem; }
+
+    h1, h2 { font-size: 1.3rem; }
+    h3, h4 { font-size: 1.1rem; }
+
+    /* Stack stat cards 2-per-row on mobile */
+    .stat-card .stat-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Full-width buttons on mobile forms */
+    .btn-mobile-full { width: 100%; }
+
+    /* Tighter card padding */
+    .card-body { padding: 0.85rem; }
+
+    /* Table font size */
+    .table { font-size: 0.8rem; }
+    .table td, .table th { padding: 0.4rem 0.5rem; }
+
+    /* Reduce main padding */
+    main.flex-grow-1 { padding: 0.75rem !important; }
+}
+
+/* Medium screens (tablet) */
+@media (max-width: 768px) {
+    .hide-on-mobile { display: none !important; }
+
+    /* Make dashboard stat grid 2-col */
+    .stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* Offcanvas sidebar enhancements */
+.offcanvas .sidebar-link {
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+}
+
+/* Close offcanvas when a link is tapped */
+.offcanvas .nav-link { cursor: pointer; }
+
