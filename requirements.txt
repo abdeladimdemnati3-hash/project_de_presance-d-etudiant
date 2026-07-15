@@ -1,5 +1,4 @@
 Django>=4.2,<5.0
-mysqlclient>=2.2
 Pillow>=12.0
 django-crispy-forms>=2.0
 crispy-bootstrap5
@@ -8,3 +7,6 @@ openpyxl>=3.1
 django-filter>=25.0
 python-decouple>=3.8
 whitenoise>=6.0
+gunicorn>=21.2
+dj-database-url>=2.1
+psycopg2-binary>=2.9
