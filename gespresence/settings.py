@@ -81,12 +81,9 @@ WSGI_APPLICATION = 'gespresence.wsgi.application'
 
 DATABASES = {
     'default': dj_database_url.config(
-        default='mysql://{user}:{password}@{host}:{port}/{name}'.format(
-            user=config('DB_USER', default='root'),
-            password=config('DB_PASSWORD', default=''),
-            host=config('DB_HOST', default='localhost'),
-            port=config('DB_PORT', default='3306'),
-            name=config('DB_NAME', default='gespresence_db'),
+        default=config(
+            'DATABASE_URL',
+            default='sqlite:///db.sqlite3',
         ),
         conn_max_age=600,
     )
