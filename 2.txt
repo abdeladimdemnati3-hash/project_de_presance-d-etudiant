@@ -1,0 +1,67 @@
+Enseignants: prof1234
+Étudiants: etud1234
+Username: admin
+Password: Admin1234!
+
+Updated todo list
+
+Here are all usernames and passwords:
+
+---
+
+### Admin
+| Username | Password |
+|---|---|
+| `admin` | `Admin1234!` |
+
+---
+
+### Enseignants — password: `prof1234`
+| Username | Nom |
+|---|---|
+| `prof_karim` | Karim Bennani |
+| `prof_sara` | Sara Alaoui |
+| `prof_youssef` | Youssef Idrissi |
+| `prof_fatima` | Fatima Zahra |
+| `prof_amine` | Amine Tazi |
+| `prof_nadia` | Nadia Chraibi |
+| `prof_omar` | Omar Mansouri |
+| `prof_laila` | Laila Berrada |
+| `prof_hassan` | Hassan Ouali |
+| `prof_zineb` | Zineb Kabbaj |
+
+---
+
+### Étudiants — password: `etud1234`
+| Username | Nom | Groupe |
+|---|---|---|
+| `etud_adam` | Adam Benali | DEV-101 |
+| `etud_imane` | Imane Tazi | DEV-101 |
+| `etud_yassir` | Yassir Moussaoui | DEV-101 |
+| `etud_hafsa` | Hafsa Rachidi | DEV-101 |
+| `etud_badr` | Badr Idrissi | DEV-101 |
+| `etud_salma` | Salma Alami | DEV-102 |
+| `etud_karim2` | Karim Bouzidi | DEV-102 |
+| `etud_nour` | Nour Cherkaoui | DEV-102 |
+| `etud_rida` | Rida El Fassi | DEV-102 |
+| `etud_sarah2` | Sarah Lahlou | DEV-102 |
+| `etud_mehdi` | Mehdi Bensouda | RES-101 |
+| `etud_samira` | Samira Kettani | RES-101 |
+| `etud_anas` | Anas Sebti | RES-101 |
+| `etud_widad` | Widad Tahiri | RES-101 |
+| `etud_fouad` | Fouad Benjelloun | RES-101 |
+| `etud_zineb2` | Zineb Hamidi | RES-102 |
+| `etud_tariq` | Tariq Benkirane | RES-102 |
+| `etud_loubna` | Loubna Ouazzani | RES-102 |
+| `etud_ilias` | Ilias Benmoussa | RES-102 |
+| `etud_amina` | Amina Gharbi | RES-102 |
+| `etud_houda` | Houda Sekkat | COMPTA-101 |
+| `etud_khalid` | Khalid Amrani | COMPTA-101 |
+| `etud_aicha` | Aicha Bouhali | COMPTA-101 |
+| `etud_youssef2` | Youssef Naciri | COMPTA-101 |
+| `etud_kenza` | Kenza Alaoui | COMPTA-101 |
+| `etud_rachid` | Rachid Bennani | MECA-101 |
+| `etud_fatima2` | Fatima Zouiten | MECA-101 |
+| `etud_nabil` | Nabil Chami | MECA-101 |
+| `etud_hind` | Hind Berrada | MECA-101 |
+| `etud_said` | Said El Idrissi | MECA-101 |

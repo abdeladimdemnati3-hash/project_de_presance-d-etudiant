@@ -19,8 +19,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from django.shortcuts import redirect
+from gespresence.chatbot_views import widget_js, chat_api
 
 urlpatterns = [
+    path('widget.js', widget_js, name='widget_js'),
+    path('api/widget/chat', chat_api, name='widget_chat'),
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('dashboard'), name='root'),
     path('accounts/', include('accounts.urls')),
