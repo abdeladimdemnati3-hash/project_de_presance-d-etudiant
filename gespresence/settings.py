@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'rapports',
     'notifications',
     'emploi',
+    'cloudinary_storage',
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -141,8 +143,20 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# ── Media files ──────────────────────────────────────────────────────────────
+# On Heroku, use Cloudinary (set CLOUDINARY_URL env var in config vars).
+# Locally, fall back to the local media/ folder.
+CLOUDINARY_URL = config('CLOUDINARY_URL', default='')
+
+if CLOUDINARY_URL:
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+    # CLOUDINARY_STORAGE reads the URL automatically via CLOUDINARY_URL env var
+    CLOUDINARY_STORAGE = {'CLOUDINARY_URL': CLOUDINARY_URL}
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
+else:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media'
 
 # Auth
 AUTH_USER_MODEL = 'accounts.Utilisateur'
