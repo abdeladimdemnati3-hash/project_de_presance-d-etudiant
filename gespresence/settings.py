@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'presences',
     'rapports',
     'notifications',
+    'emploi',
 ]
 
 MIDDLEWARE = [

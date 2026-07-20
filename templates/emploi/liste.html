@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Emploi du temps{% endblock %}
+{% block active_emploi %}active{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="fw-bold mb-0"><i class="bi bi-calendar3 me-2 text-primary"></i>Emploi du temps</h4>
+    {% if user.role == 'admin' %}
+    <a href="{% url 'emploi_upload' %}" class="btn btn-primary btn-sm">
+        <i class="bi bi-upload me-1"></i>Uploader un emploi
+    </a>
+    {% endif %}
+</div>
+
+<!-- Filtres -->
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body py-3">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label small fw-medium">Groupe</label>
+                <select name="groupe" class="form-select form-select-sm">
+                    <option value="">Tous les groupes</option>
+                    {% for g in all_groupes %}
+                    <option value="{{ g.pk }}" {% if groupe_filter == g.pk|stringformat:"s" %}selected{% endif %}>{{ g.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label small fw-medium">Année scolaire</label>
+                <select name="annee" class="form-select form-select-sm">
+                    <option value="">Toutes</option>
+                    {% for a in annees %}
+                    <option value="{{ a }}" {% if annee_filter == a %}selected{% endif %}>{{ a }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-outline-primary btn-sm w-100">
+                    <i class="bi bi-funnel me-1"></i>Filtrer
+                </button>
+            </div>
+            {% if annee_filter or groupe_filter %}
+            <div class="col-md-2">
+                <a href="{% url 'emploi_list' %}" class="btn btn-outline-secondary btn-sm w-100">
+                    <i class="bi bi-x-circle me-1"></i>Réinitialiser
+                </a>
+            </div>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+<!-- Liste des emplois -->
+{% if emplois %}
+<div class="row g-4">
+    {% for emploi in emplois %}
+    <div class="col-md-6 col-lg-4">
+        <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <span class="fw-semibold small"><i class="bi bi-people me-1"></i>{{ emploi.groupe.nom }}</span>
+                <span class="badge bg-white text-primary">{{ emploi.annee_scolaire }}</span>
+            </div>
+            <div class="card-body">
+                <p class="fw-medium mb-1">{{ emploi.titre }}</p>
+                <p class="text-muted small mb-3">
+                    <i class="bi bi-clock me-1"></i>{{ emploi.date_upload|date:"d/m/Y H:i" }}
+                </p>
+                {% with ext=emploi.fichier.name|lower %}
+                {% if ".jpg" in ext or ".jpeg" in ext or ".png" in ext or ".gif" in ext or ".webp" in ext %}
+                <div class="text-center mb-3">
+                    <a href="{{ emploi.fichier.url }}" target="_blank">
+                        <img src="{{ emploi.fichier.url }}" alt="{{ emploi.titre }}"
+                             class="img-fluid rounded" style="max-height:180px; object-fit:cover;">
+                    </a>
+                </div>
+                {% else %}
+                <div class="text-center mb-3 py-3 bg-light rounded">
+                    <i class="bi bi-file-earmark-pdf text-danger fs-1"></i>
+                    <p class="small text-muted mb-0 mt-1">Fichier PDF / Document</p>
+                </div>
+                {% endif %}
+                {% endwith %}
+            </div>
+            <div class="card-footer bg-white d-flex justify-content-between align-items-center">
+                <a href="{{ emploi.fichier.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                    <i class="bi bi-eye me-1"></i>Voir
+                </a>
+                <a href="{{ emploi.fichier.url }}" download class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-download me-1"></i>Télécharger
+                </a>
+                {% if user.role == 'admin' %}
+                <form method="post" action="{% url 'emploi_delete' emploi.pk %}"
+                      onsubmit="return confirm('Supprimer cet emploi du temps ?');">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="card border-0 shadow-sm">
+    <div class="card-body text-center py-5 text-muted">
+        <i class="bi bi-calendar-x fs-1 mb-3 d-block"></i>
+        <p class="mb-0">Aucun emploi du temps disponible.</p>
+        {% if user.role == 'admin' %}
+        <a href="{% url 'emploi_upload' %}" class="btn btn-primary btn-sm mt-3">
+            <i class="bi bi-upload me-1"></i>Uploader le premier emploi
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endif %}
+{% endblock %}
